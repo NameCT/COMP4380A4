@@ -1,4 +1,4 @@
-package code;
+package bplustree;
 
 class BPlusTree{
 	BPlusTreeInnerNode root;

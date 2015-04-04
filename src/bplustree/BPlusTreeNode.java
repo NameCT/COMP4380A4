@@ -1,4 +1,4 @@
-package code;
+package bplustree;
 
 public abstract class BPlusTreeNode<K extends Comparable<K>>{
 	protected Object[] keys;

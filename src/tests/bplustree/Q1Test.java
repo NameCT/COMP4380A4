@@ -1,7 +1,8 @@
-package tests;
+package tests.bplustree;
 
-import code.*;
+import bplustree.*;
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 

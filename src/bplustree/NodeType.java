@@ -1,4 +1,4 @@
-package code;
+package bplustree;
 
 public enum NodeType {
 	InnerNode,

@@ -1,6 +1,6 @@
 // probably don't need this anymore since the leaf node contains all the records?
 
-package code;
+package bplustree;
 
 import java.util.ArrayList;
 

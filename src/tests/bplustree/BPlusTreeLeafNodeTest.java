@@ -1,4 +1,4 @@
-package tests;
+package tests.bplustree;
 
 import static org.junit.Assert.*;
 
@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import code.BPlusTreeLeafNode;
+import bplustree.BPlusTreeLeafNode;
 
 public class BPlusTreeLeafNodeTest {
 	BPlusTreeLeafNode<Integer, Integer> node = new BPlusTreeLeafNode<>(2);
