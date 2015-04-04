@@ -15,18 +15,20 @@ public class BPlusTreeLeafNodeTest {
 	
 	@Test
 	public void testValuesSize() {
-		assertEquals(4, node.values.length);
+		assertEquals(5, node.getCapacity());
 	}
 	
 	@Test
 	public void testSearch() {
-		for (int i = 0; i < node.values.length; i++) {
-			node.values[i] = i;
+		for (int i = 0; i < 5; i++) {
+			node.insert(i, i);
 		}
-		for (int i = 0; i < node.values.length; i++) {
+		assertTrue(node.sizeOfKeys() == node.sizeOfValues());
+		assertTrue(node.isOverflow());
+		for (int i = 0; i < 5; i++) {
 			assertEquals(i, node.search(i));
 		}
-		assertFalse(node.search(4) > 0);
+		assertFalse(node.search(5) > 0);
 		assertFalse(node.search(0) < 0);
 	}
 

@@ -1,23 +1,32 @@
 package bplustree;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class BPlusTreeLeafNode<K extends Comparable<K>, V> extends BPlusTreeNode<K> {
-	public Object[] values; // the "records"
+	protected ArrayList<V> values; // the "records"
 	
 	public BPlusTreeLeafNode(int degree) {
-		keys = new Object[degree*2];
-		values = new Object[degree*2];
+		super(degree);
+		keys = new ArrayList<K>();
+		values = new ArrayList<V>();
+	}
+	
+	public int sizeOfValues() {
+		return values.size();
 	}
 
 	@Override
 	public int search(K key) {
-		return Arrays.binarySearch(values, key); //nice and simple??
+		return Arrays.binarySearch(values.toArray(), key); //nice and simple??
 	}
 
-	@Override
-	public int insert(K key) {
-		return 0;
+	public void insert(K key, V value) {
+		keys.add(key);
+		Collections.sort(keys);
+		values.add(keys.indexOf(key), value);
+;
 	}
 
 	@Override
