@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 public abstract class BPlusTreeNode<K extends Comparable<K>>{
 	protected ArrayList<K> keys;
+	protected int degree;
 	protected int capacity;
 	protected BPlusTreeNode<K> parent;
 	protected BPlusTreeNode<K> lSibling;
 	protected BPlusTreeNode<K> rSibling;
 	
 	public BPlusTreeNode(int degree) {
+		this.degree = degree;
 		capacity = degree*2 + 1;
 		parent = null;
 		lSibling = null;

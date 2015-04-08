@@ -19,7 +19,7 @@ public class BPlusTreeLeafNodeTest {
 	}
 	
 	@Test
-	public void testSearch() {
+	public void testInsertAndSearch() {
 		for (int i = 0; i < 5; i++) {
 			node.insert(i, i);
 		}
@@ -32,4 +32,26 @@ public class BPlusTreeLeafNodeTest {
 		assertFalse(node.search(0) < 0);
 	}
 
+	@Test
+	public void testSplit() {
+		for (int i = 0; i < 5; i++) {
+			node.insert(i, i);
+		}
+		BPlusTreeLeafNode<Integer, Integer> newNode = node.split();
+		assertEquals(5, newNode.getCapacity());
+		assertTrue(newNode.sizeOfKeys() == newNode.sizeOfValues());
+		assertFalse(newNode.isOverflow());
+		assertTrue(node.sizeOfKeys() == node.sizeOfValues());
+		assertFalse(node.isOverflow());
+		
+		for (int i = 0; i < 3; i++) {
+			assertEquals(i, newNode.search(i));
+			assertFalse(node.search(i) > 0);
+		}
+		
+		for (int i = 3; i < 5; i++) {
+			assertFalse(newNode.search(i) > 0);
+			assertEquals(i-3, node.search(i));
+		}
+	}
 }

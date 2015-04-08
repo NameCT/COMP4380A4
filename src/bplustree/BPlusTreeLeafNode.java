@@ -26,9 +26,22 @@ public class BPlusTreeLeafNode<K extends Comparable<K>, V> extends BPlusTreeNode
 		keys.add(key);
 		Collections.sort(keys);
 		values.add(keys.indexOf(key), value);
-;
 	}
-
+	
+	public BPlusTreeLeafNode<K, V> split() {
+		int size = keys.size();
+		int midIndex = keys.size()/2;
+		
+		BPlusTreeLeafNode<K, V> newNode = new BPlusTreeLeafNode<>(degree);
+		newNode.keys.addAll(keys.subList(0, midIndex + 1));
+		newNode.values.addAll(values.subList(0, midIndex + 1));
+		keys.retainAll(keys.subList(midIndex + 1, size));
+		values.retainAll(values.subList(midIndex + 1, size));
+		
+		return newNode;
+	}
+	
+	
 	@Override
 	public int delete(K key) {
 		return 0;
