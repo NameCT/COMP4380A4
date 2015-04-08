@@ -2,27 +2,21 @@ package bplustree;
 
 import java.util.ArrayList;
 
-public abstract class BPlusTreeNode<K extends Comparable<K>>{
+public abstract class BPlusTreeNode<K extends Comparable<K>> {
 	protected ArrayList<K> keys;
 	protected int degree;
 	protected int capacity;
 	protected BPlusTreeNode<K> parent;
 	protected BPlusTreeNode<K> lSibling;
 	protected BPlusTreeNode<K> rSibling;
-	
+
 	public BPlusTreeNode(int degree) {
 		this.degree = degree;
-		capacity = degree*2 + 1;
+		capacity = degree * 2 + 1;
 		parent = null;
 		lSibling = null;
 		rSibling = null;
 	}
-	
-	// methods that all nodes should support: search, insert and delete
-	
-//	public int getKeycount() {
-//		return keyCount;
-//	}
 
 	public BPlusTreeNode<K> getParent() {
 		return parent;
@@ -47,7 +41,7 @@ public abstract class BPlusTreeNode<K extends Comparable<K>>{
 	public void setrSibling(BPlusTreeNode<K> rSibling) {
 		this.rSibling = rSibling;
 	}
-	
+
 	public int getCapacity() {
 		return capacity;
 	}
@@ -59,11 +53,34 @@ public abstract class BPlusTreeNode<K extends Comparable<K>>{
 	public int sizeOfKeys() {
 		return keys.size();
 	}
-	
+
 	public abstract int search(K key);
-	
-	//public abstract int insert(K key);
-	
+
 	public abstract int delete(K key);
-	
+
+	protected abstract BPlusTreeNode<K> split();
+
+	protected BPlusTreeNode<K> dealOverflow() {
+
+		BPlusTreeNode<K> newNode = this.split();
+		K upKey = newNode.keys.get(keys.size() / 2);
+
+		if (this.parent == null) {
+			this.parent = new BPlusTreeInnerNode<K>(degree);
+		}
+		newNode.setParent(this.parent);
+
+		newNode.lSibling = this.lSibling;
+		newNode.rSibling = this;
+		if (this.lSibling != null) {
+			this.lSibling.rSibling = newNode;
+		}
+		this.lSibling = newNode;
+
+		return this.getParent().pushUp(upKey, this, newNode);
+
+	}
+
+	protected abstract BPlusTreeNode<K> pushUp(K midKey,
+			BPlusTreeNode<K> leftChild, BPlusTreeNode<K> rigthChild);
 }

@@ -11,7 +11,7 @@ import org.junit.Test;
 import bplustree.BPlusTreeLeafNode;
 
 public class BPlusTreeLeafNodeTest {
-	BPlusTreeLeafNode<Integer, Integer> node = new BPlusTreeLeafNode<>(2);
+	private BPlusTreeLeafNode<Integer, Integer> node = new BPlusTreeLeafNode<>(2);
 	
 	@Test
 	public void testValuesSize() {

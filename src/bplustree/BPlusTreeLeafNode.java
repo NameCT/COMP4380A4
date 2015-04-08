@@ -26,8 +26,10 @@ public class BPlusTreeLeafNode<K extends Comparable<K>, V> extends BPlusTreeNode
 		keys.add(key);
 		Collections.sort(keys);
 		values.add(keys.indexOf(key), value);
+		
 	}
 	
+	@Override
 	public BPlusTreeLeafNode<K, V> split() {
 		int size = keys.size();
 		int midIndex = keys.size()/2;
@@ -45,5 +47,11 @@ public class BPlusTreeLeafNode<K extends Comparable<K>, V> extends BPlusTreeNode
 	@Override
 	public int delete(K key) {
 		return 0;
+	}
+
+	@Override
+	protected BPlusTreeNode<K> pushUp(K midKey, BPlusTreeNode<K> leftChild,
+			BPlusTreeNode<K> rigthChild) {
+		throw new UnsupportedOperationException();
 	}
 }

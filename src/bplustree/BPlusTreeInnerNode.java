@@ -14,7 +14,7 @@ public class BPlusTreeInnerNode<K extends Comparable<K>> extends BPlusTreeNode<K
 
 	@Override
 	public int search(K key) {
-		return Arrays.binarySearch(children.toArray(), key);
+		return Arrays.binarySearch(keys.toArray(), key);
 	}
 
 	public void insert(K key, BPlusTreeNode<K> leftChild, BPlusTreeNode<K> rightChild) {
@@ -27,8 +27,29 @@ public class BPlusTreeInnerNode<K extends Comparable<K>> extends BPlusTreeNode<K
 	}
 	
 	@Override
+	public BPlusTreeNode<K> split() {
+		return null;
+	}
+	
+	@Override
 	public int delete(K key) {
 		return 0;
 	}
+
+	public ArrayList<BPlusTreeNode<K>> getChildren() {
+		return children;
+	}
+
+	@Override
+	protected BPlusTreeNode<K> pushUp(K midKey, BPlusTreeNode<K> leftChild,
+			BPlusTreeNode<K> rigthChild) {
+		this.insert(midKey, leftChild, rigthChild);
+		if(this.isOverflow()) {
+			return this.dealOverflow();
+		} else {
+			return this.parent == null ? this : null;
+		}
+	}
+
 	
 }
