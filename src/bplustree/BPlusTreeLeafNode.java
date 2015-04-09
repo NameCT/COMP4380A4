@@ -31,13 +31,13 @@ public class BPlusTreeLeafNode<K extends Comparable<K>, V> extends BPlusTreeNode
 	@Override
 	public BPlusTreeLeafNode<K, V> split() {
 		int size = this.keys.size();
-		int midIndex = this.keys.size()/2;
+		int midIndex = size / 2;
 		
 		BPlusTreeLeafNode<K, V> newNode = new BPlusTreeLeafNode<>(this.degree);
-		newNode.keys.addAll(this.keys.subList(0, midIndex + 1));
-		newNode.values.addAll(this.values.subList(0, midIndex + 1));
-		this.keys.retainAll(this.keys.subList(midIndex + 1, size));
-		this.values.retainAll(this.values.subList(midIndex + 1, size));
+		newNode.keys.addAll(this.keys.subList(midIndex, size));
+		newNode.values.addAll(this.values.subList(midIndex, size));
+		this.keys.retainAll(this.keys.subList(0, midIndex));
+		this.values.retainAll(this.values.subList(0, midIndex));
 		
 		return newNode;
 	}

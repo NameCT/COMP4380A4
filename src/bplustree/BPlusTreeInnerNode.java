@@ -32,18 +32,17 @@ public class BPlusTreeInnerNode<K extends Comparable<K>> extends
 
 	@Override
 	public BPlusTreeNode<K> split() {
-		int midIndex = this.keys.size() / 2;
+		int size = this.keys.size();
+		int midIndex = size / 2;
 
 		BPlusTreeInnerNode<K> newNode = new BPlusTreeInnerNode<K>(this.degree);
-		newNode.keys.addAll(this.keys.subList(0, midIndex));
-		newNode.children.addAll(this.children.subList(0, midIndex));
+		newNode.keys.addAll(this.keys.subList(midIndex + 1, size));
+		newNode.children.addAll(this.children.subList(midIndex + 1, size));
 		for (BPlusTreeNode<K> node : newNode.children) {
 			node.parent = newNode;
 		}
-		this.keys.retainAll(this.keys.subList(midIndex + 1, this.keys.size()));
-		this.children.retainAll(this.children.subList(midIndex + 1,
-				this.children.size()));
-
+		this.keys.retainAll(this.keys.subList(0, midIndex));
+		this.children.retainAll(this.children.subList(0, midIndex));
 		return newNode;
 	}
 

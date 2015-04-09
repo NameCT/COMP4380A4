@@ -44,14 +44,14 @@ public class BPlusTreeLeafNodeTest {
 		assertTrue(node.sizeOfKeys() == node.sizeOfValues());
 		assertFalse(node.isOverflow());
 		
-		for (int i = 0; i < 3; i++) {
-			assertEquals(i, newNode.search(i));
-			assertFalse(node.search(i) > 0);
+		for (int i = 0; i < 2; i++) {
+			assertEquals(i, node.search(i));
+			assertFalse(newNode.search(i) > 0);
 		}
 		
-		for (int i = 3; i < 5; i++) {
-			assertFalse(newNode.search(i) > 0);
-			assertEquals(i-3, node.search(i));
+		for (int i = 2; i < 5; i++) {
+			assertEquals(i-2, newNode.search(i));
+			assertFalse(node.search(i) > 0);
 		}
 	}
 }

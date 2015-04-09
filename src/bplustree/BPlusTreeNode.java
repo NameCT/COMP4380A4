@@ -75,14 +75,14 @@ public abstract class BPlusTreeNode<K extends Comparable<K>> {
 		}
 		newNode.setParent(this.parent);
 
-		newNode.lSibling = this.lSibling;
-		newNode.rSibling = this;
-		if (this.lSibling != null) {
-			this.lSibling.rSibling = newNode;
+		newNode.lSibling = this;
+		newNode.rSibling = this.rSibling;
+		if (this.rSibling != null) {
+			this.rSibling.lSibling = newNode;
 		}
-		this.lSibling = newNode;
+		this.rSibling = newNode;
 
-		return this.getParent().pushUp(upKey, newNode, this);
+		return this.getParent().pushUp(upKey, this, newNode);
 
 	}
 
