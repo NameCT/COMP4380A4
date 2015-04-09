@@ -14,12 +14,12 @@ public class BPlusTreeLeafNodeTest {
 	private BPlusTreeLeafNode<Integer, Integer> node = new BPlusTreeLeafNode<>(2);
 	
 	@Test
-	public void testValuesSize() {
+	public final void testValuesSize() {
 		assertEquals(5, node.getCapacity());
 	}
 	
 	@Test
-	public void testInsertAndSearch() {
+	public final void testInsertAndSearch() {
 		for (int i = 0; i < 5; i++) {
 			node.insert(i, i);
 		}
@@ -33,7 +33,7 @@ public class BPlusTreeLeafNodeTest {
 	}
 
 	@Test
-	public void testSplit() {
+	public final void testSplit() {
 		for (int i = 0; i < 5; i++) {
 			node.insert(i, i);
 		}

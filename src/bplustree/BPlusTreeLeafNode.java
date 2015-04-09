@@ -9,12 +9,11 @@ public class BPlusTreeLeafNode<K extends Comparable<K>, V> extends BPlusTreeNode
 	
 	public BPlusTreeLeafNode(int degree) {
 		super(degree);
-		keys = new ArrayList<K>();
-		values = new ArrayList<V>();
+		this.values = new ArrayList<V>();
 	}
 	
 	public int sizeOfValues() {
-		return values.size();
+		return this.values.size();
 	}
 
 	@Override
@@ -23,22 +22,22 @@ public class BPlusTreeLeafNode<K extends Comparable<K>, V> extends BPlusTreeNode
 	}
 
 	public void insert(K key, V value) {
-		keys.add(key);
+		this.keys.add(key);
 		Collections.sort(keys);
-		values.add(keys.indexOf(key), value);
+		this.values.add(keys.indexOf(key), value);
 		
 	}
 	
 	@Override
 	public BPlusTreeLeafNode<K, V> split() {
-		int size = keys.size();
-		int midIndex = keys.size()/2;
+		int size = this.keys.size();
+		int midIndex = this.keys.size()/2;
 		
-		BPlusTreeLeafNode<K, V> newNode = new BPlusTreeLeafNode<>(degree);
-		newNode.keys.addAll(keys.subList(0, midIndex + 1));
-		newNode.values.addAll(values.subList(0, midIndex + 1));
-		keys.retainAll(keys.subList(midIndex + 1, size));
-		values.retainAll(values.subList(midIndex + 1, size));
+		BPlusTreeLeafNode<K, V> newNode = new BPlusTreeLeafNode<>(this.degree);
+		newNode.keys.addAll(this.keys.subList(0, midIndex + 1));
+		newNode.values.addAll(this.values.subList(0, midIndex + 1));
+		this.keys.retainAll(this.keys.subList(midIndex + 1, size));
+		this.values.retainAll(this.values.subList(midIndex + 1, size));
 		
 		return newNode;
 	}

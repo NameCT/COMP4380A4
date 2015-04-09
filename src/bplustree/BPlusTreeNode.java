@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public abstract class BPlusTreeNode<K extends Comparable<K>> {
 	protected ArrayList<K> keys;
+
 	protected int degree;
 	protected int capacity;
 	protected BPlusTreeNode<K> parent;
@@ -11,6 +12,7 @@ public abstract class BPlusTreeNode<K extends Comparable<K>> {
 	protected BPlusTreeNode<K> rSibling;
 
 	public BPlusTreeNode(int degree) {
+		this.keys = new ArrayList<K>();
 		this.degree = degree;
 		capacity = degree * 2 + 1;
 		parent = null;
@@ -54,17 +56,20 @@ public abstract class BPlusTreeNode<K extends Comparable<K>> {
 		return keys.size();
 	}
 
+	public ArrayList<K> getKeys() {
+		return keys;
+	}
+	
 	public abstract int search(K key);
 
 	public abstract int delete(K key);
 
 	protected abstract BPlusTreeNode<K> split();
 
-	protected BPlusTreeNode<K> dealOverflow() {
-
+	public BPlusTreeNode<K> dealOverflow() {
+		K upKey = this.keys.get(keys.size() / 2);
 		BPlusTreeNode<K> newNode = this.split();
-		K upKey = newNode.keys.get(keys.size() / 2);
-
+		
 		if (this.parent == null) {
 			this.parent = new BPlusTreeInnerNode<K>(degree);
 		}
@@ -77,7 +82,7 @@ public abstract class BPlusTreeNode<K extends Comparable<K>> {
 		}
 		this.lSibling = newNode;
 
-		return this.getParent().pushUp(upKey, this, newNode);
+		return this.getParent().pushUp(upKey, newNode, this);
 
 	}
 
