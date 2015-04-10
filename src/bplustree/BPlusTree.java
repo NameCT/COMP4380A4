@@ -27,7 +27,7 @@ public class BPlusTree<K extends Comparable<K>, V> {
 		BPlusTreeNode<K> node = root;
 		while (BPlusTreeInnerNode.class == node.getClass()) {
 			node = ((BPlusTreeInnerNode<K>) node).getChildren().get(
-					node.search(key)); // what if null
+					node.search(key));
 		}
 		return (BPlusTreeLeafNode<K, V>) node;
 	}

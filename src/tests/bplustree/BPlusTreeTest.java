@@ -14,8 +14,8 @@ public class BPlusTreeTest {
 		BPlusTree<Integer, Integer> tree = new BPlusTree<Integer, Integer>(1);
 		BPlusTreeNode<Integer> oldRoot = tree.getRoot();
 		
-		for (int i = 0; i < 3; i++) {
-			tree.insert(i, i);
+		for (int i = 0; i < 10; i++) {
+			tree.insert(i, i); // it seems like the right child got lost...
 		}
 		
 		assertTrue(oldRoot != tree.getRoot());
@@ -25,11 +25,11 @@ public class BPlusTreeTest {
 	public final void testSearch() {
 		BPlusTree<Integer, Integer> tree = new BPlusTree<Integer, Integer>(1);
 		
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 10; i++) {
 			tree.insert(i, i);
 		}
 		
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 10; i++) {
 			assertTrue(tree.search(i) == i);
 		}
 	}
