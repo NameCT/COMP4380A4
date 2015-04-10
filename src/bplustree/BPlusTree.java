@@ -7,6 +7,10 @@ public class BPlusTree<K extends Comparable<K>, V> {
 		root = new BPlusTreeLeafNode<>(degree);
 	}
 
+	public BPlusTreeNode<K> getRoot() {
+		return root;
+	}
+
 	public void insert(K key, V value) {
 		BPlusTreeLeafNode<K, V> leaf = findLeafNode(key);
 		leaf.insert(key, value);
@@ -23,14 +27,16 @@ public class BPlusTree<K extends Comparable<K>, V> {
 		BPlusTreeNode<K> node = root;
 		while (BPlusTreeInnerNode.class == node.getClass()) {
 			node = ((BPlusTreeInnerNode<K>) node).getChildren().get(
-					node.search(key));
+					node.search(key)); // what if null
 		}
 		return (BPlusTreeLeafNode<K, V>) node;
 	}
 
 	public V search(K key) {
-
-		return null;
+		BPlusTreeLeafNode<K, V> leaf = this.findLeafNode(key);
+		int index = leaf.search(key);
+		
+		return index >= 0 ? leaf.values.get(index): null;
 	}
 
 	public void delete(int index) {

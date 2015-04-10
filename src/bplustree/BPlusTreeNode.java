@@ -88,4 +88,11 @@ public abstract class BPlusTreeNode<K extends Comparable<K>> {
 
 	protected abstract BPlusTreeNode<K> pushUp(K midKey,
 			BPlusTreeNode<K> leftChild, BPlusTreeNode<K> rigthChild);
+
+	@Override
+	public String toString() {
+		return this.keys.toString();
+	}
+	
+	
 }

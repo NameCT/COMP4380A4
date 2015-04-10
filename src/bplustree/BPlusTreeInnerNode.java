@@ -15,7 +15,8 @@ public class BPlusTreeInnerNode<K extends Comparable<K>> extends
 
 	@Override
 	public int search(K key) {
-		return Arrays.binarySearch(keys.toArray(), key);
+		int index = Arrays.binarySearch(keys.toArray(), key);
+		return index >= 0 ? index + 1 : -index - 1;
 	}
 
 	public void insert(K key, BPlusTreeNode<K> leftChild,
@@ -23,7 +24,7 @@ public class BPlusTreeInnerNode<K extends Comparable<K>> extends
 		this.keys.add(key);
 		Collections.sort(keys);
 		int index = keys.indexOf(key);
-		if(!this.children.isEmpty()){
+		if (!this.children.isEmpty()) {
 			this.children.remove(index);
 		}
 		this.children.add(index, leftChild);
