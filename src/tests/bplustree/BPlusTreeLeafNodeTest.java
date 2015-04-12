@@ -54,4 +54,15 @@ public class BPlusTreeLeafNodeTest {
 			assertFalse(node.search(i) > 0);
 		}
 	}
+	
+	@Test
+	public final void testDelete() {
+		for (int i = 0; i < 2; i++) {
+			node.insert(i, i);
+		}
+		
+		node.delete(0);
+		assertTrue(node.search(0) < 0);
+		assertTrue(node.search(1) >= 0);
+	}
 }

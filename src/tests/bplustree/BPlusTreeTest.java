@@ -13,30 +13,49 @@ public class BPlusTreeTest {
 	public final void testInsert() {
 		BPlusTree<Integer, Integer> tree = new BPlusTree<Integer, Integer>(1);
 		BPlusTreeNode<Integer> oldRoot = tree.getRoot();
-		
-		for (int i = 0; i < 10; i++) {
-			tree.insert(i, i); // it seems like the right child got lost...
+
+		for (int i = 0; i < 100; i++) {
+			tree.insert(i, i);
 		}
-		
+
 		assertTrue(oldRoot != tree.getRoot());
 	}
 
 	@Test
 	public final void testSearch() {
-		BPlusTree<Integer, Integer> tree = new BPlusTree<Integer, Integer>(1);
-		
-		for (int i = 0; i < 10; i++) {
+		BPlusTree<Integer, Integer> tree = new BPlusTree<Integer, Integer>(3);
+
+		for (int i = 0; i < 100; i++) {
 			tree.insert(i, i);
 		}
-		
-		for (int i = 0; i < 10; i++) {
+
+		for (int i = 0; i < 100; i++) {
 			assertTrue(tree.search(i) == i);
 		}
+		
 	}
 
 	@Test
 	public final void testDelete() {
-		//fail("Not yet implemented");
-	}
+		BPlusTree<Integer, Integer> tree = new BPlusTree<Integer, Integer>(1);
 
+		for (int i = 0; i < 6; i++) {
+			tree.insert(i, i);
+		}
+
+		tree.delete(2);
+		tree.delete(3);
+		tree.delete(4);
+		assertTrue(tree.search(4) == null);
+	}
+	
+	@Test
+	public final void testPrint() {
+		BPlusTree<Integer, Integer> tree = new BPlusTree<Integer, Integer>(1);
+		for (int i = 0; i < 10; i++) {
+			tree.insert(i, i);
+		}
+		System.out.println(tree);
+		
+	}
 }

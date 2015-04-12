@@ -56,20 +56,18 @@ public abstract class BPlusTreeNode<K extends Comparable<K>> {
 		return keys.size();
 	}
 
-	public ArrayList<K> getKeys() {
+	public ArrayList<K> geKs() {
 		return keys;
 	}
-	
-	public abstract int search(K key);
 
-	public abstract int delete(K key);
+	public abstract int search(K key);
 
 	protected abstract BPlusTreeNode<K> split();
 
 	public BPlusTreeNode<K> dealOverflow() {
 		K upKey = this.keys.get(keys.size() / 2);
 		BPlusTreeNode<K> newNode = this.split();
-		
+
 		if (this.parent == null) {
 			this.parent = new BPlusTreeInnerNode<K>(degree);
 		}
@@ -86,13 +84,62 @@ public abstract class BPlusTreeNode<K extends Comparable<K>> {
 
 	}
 
+	public boolean isUnderflow() {
+		return this.keys.size() < (this.capacity / 2);
+	}
+
+	public boolean canLendAKey() {
+		return this.keys.size() > (this.capacity / 2);
+	}
+
+	public BPlusTreeNode<K> dealUnderflow() {
+		if (this.getParent() == null)
+			return null;
+
+		// try to borrow a key from sibling
+		BPlusTreeNode<K> leftSibling = this.lSibling;
+		if (leftSibling != null && leftSibling.parent == this.parent
+				&& leftSibling.canLendAKey()) {
+			this.getParent().processChildrenTransfer(this, leftSibling,
+					leftSibling.keys.size() - 1);
+			return null;
+		}
+
+		BPlusTreeNode<K> rightSibling = this.rSibling;
+		if (rightSibling != null && rightSibling.parent == this.parent
+				&& rightSibling.canLendAKey()) {
+			this.getParent().processChildrenTransfer(this, rightSibling, 0);
+			return null;
+		}
+
+		// Can not borrow a key from any sibling, then do fusion with sibling
+		if (leftSibling != null && leftSibling.parent == this.parent) {
+			return this.getParent().processChildrenFusion(leftSibling, this);
+		} else if (rightSibling.parent == this.parent) {
+			return this.getParent().processChildrenFusion(this, rightSibling);
+		} 
+		
+		return null;
+	}
+
 	protected abstract BPlusTreeNode<K> pushUp(K midKey,
 			BPlusTreeNode<K> leftChild, BPlusTreeNode<K> rigthChild);
 
+	protected abstract void processChildrenTransfer(BPlusTreeNode<K> borrower,
+			BPlusTreeNode<K> lender, int borrowIndex);
+
+	protected abstract BPlusTreeNode<K> processChildrenFusion(
+			BPlusTreeNode<K> leftChild, BPlusTreeNode<K> rightChild);
+
+	protected abstract void fusionWithSibling(K sinkKey,
+			BPlusTreeNode<K> rightSibling);
+
+	protected abstract K transferFromSibling(K sinkKey,
+			BPlusTreeNode<K> sibling, int borrowIndex);
+
 	@Override
 	public String toString() {
-		return this.keys.toString();
+		return this.toString();
 	}
-	
-	
+
 }

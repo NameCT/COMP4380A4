@@ -1,5 +1,6 @@
 package bplustree;
 
+
 public class BPlusTree<K extends Comparable<K>, V> {
 	private BPlusTreeNode<K> root;
 
@@ -39,8 +40,39 @@ public class BPlusTree<K extends Comparable<K>, V> {
 		return index >= 0 ? leaf.values.get(index): null;
 	}
 
-	public void delete(int index) {
-
+	public void delete(K key) {
+		BPlusTreeLeafNode<K, V> leaf = this.findLeafNode(key);
+		
+		if (leaf.delete(key) && leaf.isUnderflow()) {
+			BPlusTreeNode<K> n = leaf.dealUnderflow();
+			if (n != null)
+				this.root = n; 
+		}
+		
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder treeString = new StringBuilder("Root ");
+		
+		BPlusTreeNode<K> node = root;
+		while (node != null) {
+			treeString.append(node.toString());
+			BPlusTreeNode<K> sibling = node.rSibling;
+			while(sibling != null) {
+				treeString.append(sibling.toString());
+				sibling = (BPlusTreeNode<K>) sibling.rSibling;
+			}
+			treeString.append("\n");
+			
+			if (BPlusTreeInnerNode.class == node.getClass()) {
+				node = ((BPlusTreeInnerNode<K>) node).children.get(0);
+			} else {
+				break;
+			}
+		}
+		return treeString.toString();
+		
 	}
 
 }
